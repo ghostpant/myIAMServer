@@ -17,4 +17,7 @@ public class UserRegisterQuery {
 
     @NonNull
     private String registerType;
+
+    @NonNull
+    private String sysCode;
 }

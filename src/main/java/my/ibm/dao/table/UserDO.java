@@ -13,15 +13,15 @@ import lombok.Data;
 public class UserDO {
 
     @TableId(value = "user_id", type = IdType.AUTO)
-    private int id;
+    private long id;
 
     //所属系统id
     @TableField(value = "sysid")
-    private int sysid;
+    private long sysid;
 
     // 0 为冻结状态 , 1 为正常状态
     @TableField(value = "user_flag")
-    private int flag;
+    private int userFlag;
 
     @TableField(value = "user_name")
     private String userName;
@@ -35,9 +35,9 @@ public class UserDO {
     @TableField(value = "is_delete")
     private int isdelete;
 
-    @TableField(value = "user_flag")
-    private int userFlag;
-
     @TableField(value = "user_email")
     private String email;
+
+    @TableField(value = "user_phone")
+    private String userPhone;
 }

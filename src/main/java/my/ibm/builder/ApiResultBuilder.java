@@ -60,11 +60,11 @@ public class ApiResultBuilder {
         return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_ERROR, data);
     }
 
-    public static ApiResult fail(String traceId, String msg, String errorCode) {
-        return new ApiResult(traceId, msg, errorCode);
+    public static ApiResultBuilder fail(String traceId, String msg, String errorCode) {
+        return new ApiResultBuilder(traceId, msg, errorCode);
     }
 
-    public static ApiResult fail(String traceId, String msg) {
-        return new ApiResult(traceId, msg, ApiResult.DEFAULT_ERROR);
+    public static ApiResultBuilder fail(String traceId, String msg) {
+        return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_ERROR);
     }
 }

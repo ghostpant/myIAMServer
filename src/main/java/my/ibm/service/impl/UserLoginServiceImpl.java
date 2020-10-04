@@ -2,7 +2,7 @@ package my.ibm.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import my.ibm.builder.ApiResultBuilder;
-import my.ibm.dao.impl.UserInfoDaoImpl;
+import my.ibm.dao.impl.UserInfoIServiceImpl;
 import my.ibm.dao.table.UserDO;
 import my.ibm.info.params.UserLoginQuery;
 import my.ibm.info.result.UserLoginVO;
@@ -20,11 +20,11 @@ import java.util.UUID;
 public class UserLoginServiceImpl implements UserLoginService {
 
     private static final Logger log = LoggerFactory.getLogger(UserLoginServiceImpl.class);
-    private final UserInfoDaoImpl userInfoDaoImpl;
+    private final UserInfoIServiceImpl userInfoDaoImpl;
     private final RedisUtil redisUtil;
 
     @Autowired
-    public UserLoginServiceImpl(UserInfoDaoImpl userInfoDaoImpl, RedisUtil redisUtil) {
+    public UserLoginServiceImpl(UserInfoIServiceImpl userInfoDaoImpl, RedisUtil redisUtil) {
         this.userInfoDaoImpl = userInfoDaoImpl;
         this.redisUtil = redisUtil;
     }
@@ -46,7 +46,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         UserDO userInfo = userInfoDaoImpl.userLoginCheck(traceId,userName, password);
         if (userInfo == null) {
             log.info("【用户登陆校验】 登陆失败! 用户名或密码错误, traceId = {} ", traceId);
-            return ApiResultBuilder.fail(traceId, "登陆失败！用户名或密码错误", ApiResult.INFO_NOT_FOUND);
+            return ApiResultBuilder.fail(traceId, "登陆失败！用户名或密码错误", ApiResult.INFO_NOT_FOUND).build();
         }
         String userAccount = userInfo.getUserAccount();
 

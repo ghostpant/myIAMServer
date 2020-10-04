@@ -1,7 +1,7 @@
 package my.ibm.service.impl;
 
 import my.ibm.builder.ApiResultBuilder;
-import my.ibm.dao.impl.UserInfoDaoImpl;
+import my.ibm.dao.impl.UserInfoIServiceImpl;
 import my.ibm.dao.table.UserDO;
 import my.ibm.info.params.UserRegisterQuery;
 import my.ibm.service.UserRegisterService;
@@ -21,10 +21,10 @@ import java.util.regex.Pattern;
 public class UserRegisterServiceImpl implements UserRegisterService {
 
     private static final Logger log = LoggerFactory.getLogger(UserRegisterServiceImpl.class);
-    private final UserInfoDaoImpl userInfoDao;
+    private final UserInfoIServiceImpl userInfoDao;
 
     @Autowired
-    public UserRegisterServiceImpl(UserInfoDaoImpl userInfoDao) {
+    public UserRegisterServiceImpl(UserInfoIServiceImpl userInfoDao) {
         this.userInfoDao = userInfoDao;
     }
 
@@ -39,6 +39,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         String userAccount = getUserAccount(traceId, tag);
         String userName = params.getUserName();
         String password = params.getPassword();
+        String sysCode = params.getSysCode();
 
 
         return null;
@@ -58,12 +59,10 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * @return 验证结果
      */
     private boolean vaildUserPhone(String traceId, String tag, String phone) {
-        boolean result = false;
-        //TODO 此处验证手机号是否合法
         String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(phone);
-        if (!result) {
+        if (!m.matches()) {
             log.info("【{}】失败, 手机号格式错误！traceId = {}, phone = {}", tag, traceId, phone);
             return false;
         }
@@ -75,8 +74,24 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         return true;
     }
 
+    private boolean validUserEmail(String traceId, String tag, String email) {
+        String regex = "^([a-z0-9A-Z]+[-|\\\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\\\.)+[a-zA-Z]{2,}$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(email);
+        if (!m.matches()) {
+            log.info("【{}】失败, 邮箱格式错误！traceId = {}, phone = {}", tag, traceId, email);
+            return false;
+        }
+        UserDO userDO = userInfoDao.getUserByEmail(traceId, email);
+        if (userDO != null) {
+            log.info("【{}】失败, 手机号已被注册！traceId = {}, phone = {}", tag, traceId, email);
+            return false;
+        }
+        return true;
+    }
+
     private String getUserAccount(String traceId, String tag) {
-        log.info("【{}生成account】traceId = {}",tag,traceId);
+        log.info("【{}生成account】traceId = {}", tag, traceId);
         return "FU" + UUID.randomUUID().toString().replace("-", "").toLowerCase();
     }
 }

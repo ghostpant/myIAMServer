@@ -62,6 +62,9 @@ public class ApiResult {
         this.data = data;
     }
 
+    public ApiResult() {
+    }
+
     public ApiResult(String traceId, String msg) {
         this.traceId = traceId;
         this.msg = msg;
