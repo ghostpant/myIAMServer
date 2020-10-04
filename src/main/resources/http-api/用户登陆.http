@@ -3,7 +3,7 @@ POST http://localhost:8088/rest/user/login
 Content-Type: application/json
 
 {
-"userName": "cxf_test",
+  "userName": "cxf_test",
   "passWord": "password"
 }
 

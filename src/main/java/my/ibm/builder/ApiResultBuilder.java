@@ -4,30 +4,35 @@ import my.ibm.utils.ApiResult;
 
 public class ApiResultBuilder {
 
-    ApiResult apiResult;
+    private ApiResult apiResult;
 
-    String traceId;
-    String msg;
-    String errorCode;
-    Object data;
+//    private String traceId;
+//    private String msg;
+//    private String errorCode;
+//    private Object data;
 
     public ApiResultBuilder( String traceId, String msg, String errorCode, Object data) {
-        this.traceId = traceId;
-        this.msg = msg;
-        this.errorCode = errorCode;
-        this.data = data;
+        apiResult = new ApiResult();
+        apiResult.setData(data);
+        apiResult.setErrorCode(errorCode);
+        apiResult.setTraceId(traceId);
+        apiResult.setMsg(msg);
     }
 
     public ApiResultBuilder(String traceId, String msg, String errorCode) {
-        this.traceId = traceId;
-        this.msg = msg;
-        this.errorCode = errorCode;
+        apiResult = new ApiResult();
+        apiResult.setErrorCode(errorCode);
+        apiResult.setTraceId(traceId);
+        apiResult.setMsg(msg);
     }
 
     public  ApiResult build(){
-        return apiResult = new ApiResult(traceId, msg,errorCode, data);
+        return this.apiResult;
     }
 
+    /**
+     * 返回成功
+     */
     public static ApiResultBuilder success(String traceId, String msg, String errorCode, Object data) {
         return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_SUCCESS, data);
     }
@@ -44,6 +49,9 @@ public class ApiResultBuilder {
         return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_SUCCESS);
     }
 
+    /**
+     * 返回失败
+     */
     public static ApiResultBuilder fail(String traceId, String msg, String errorCode, Object data) {
         return new ApiResultBuilder(traceId, msg, errorCode, data);
     }
