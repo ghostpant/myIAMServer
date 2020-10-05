@@ -1,5 +1,8 @@
 package my.ibm.constant;
 
+/**
+ * @author kingdee lwt 2020/10/4
+ */
 public class SysDOConstant {
 
     public static final String SYS_CODE = "sysCode";

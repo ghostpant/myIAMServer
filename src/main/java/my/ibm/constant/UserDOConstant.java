@@ -1,5 +1,8 @@
 package my.ibm.constant;
 
+/**
+ * @author kingdee lwt 2020/10/4
+ */
 public class UserDOConstant {
 
     public final static String USER_NAME = "user_name";

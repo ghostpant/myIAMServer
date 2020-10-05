@@ -6,9 +6,11 @@ import my.ibm.constant.SysDOConstant;
 import my.ibm.dao.mapper.SysDOMapper;
 import my.ibm.dao.service.SysDOIService;
 import my.ibm.dao.table.SysDO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author kingdee lwt 2020/10/4
+ */
 @Service
 public class SysDOIServiceImpl extends ServiceImpl<SysDOMapper, SysDO> implements SysDOIService {
 

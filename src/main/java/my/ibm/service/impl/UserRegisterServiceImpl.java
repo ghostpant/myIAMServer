@@ -21,11 +21,11 @@ import java.util.regex.Pattern;
 public class UserRegisterServiceImpl implements UserRegisterService {
 
     private static final Logger log = LoggerFactory.getLogger(UserRegisterServiceImpl.class);
-    private final UserInfoIServiceImpl userInfoDao;
+    private final UserInfoIServiceImpl userInfoIService;
 
     @Autowired
-    public UserRegisterServiceImpl(UserInfoIServiceImpl userInfoDao) {
-        this.userInfoDao = userInfoDao;
+    public UserRegisterServiceImpl(UserInfoIServiceImpl userInfoIService) {
+        this.userInfoIService = userInfoIService;
     }
 
     @Override
@@ -41,13 +41,30 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         String password = params.getPassword();
         String sysCode = params.getSysCode();
 
-
-        return null;
+        int updateCount = userInfoIService.registerUserByPhone(traceId, sysCode, userAccount, userName, password, userPhone);
+        if (updateCount > 0) {
+            return ApiResultBuilder.success("【{}】注册成功, traceId = {},userphone = {}", tag, traceId, userPhone).build();
+        }
+        return ApiResultBuilder.fail("【{}】注册失败, traceId = {},userphone = {}", tag, traceId, userPhone).build();
     }
 
     @Override
     public ApiResult userRegisterByEmail(String traceId, UserRegisterQuery params) {
-        return null;
+        String tag = "通过邮箱注册用户";
+        String email = params.getEmail();
+        boolean emailVaild = validUserEmail(traceId, tag, email);
+        if (!emailVaild) {
+            return ApiResultBuilder.fail(traceId, "注册失败，邮箱不合法", ApiResult.PARAMS_CHECK_ERROR, email).build();
+        }
+        String userAccount = getUserAccount(traceId, tag);
+        String userName = params.getUserName();
+        String password = params.getPassword();
+        String sysCode = params.getSysCode();
+        int updateCount = userInfoIService.registerUserByEmail(traceId, sysCode, userAccount, userName, password, email);
+        if (updateCount > 0) {
+            return ApiResultBuilder.success("【{}】注册成功, traceId = {},userphone = {}", tag, traceId, email).build();
+        }
+        return ApiResultBuilder.fail("【{}】注册失败, traceId = {},userphone = {}", tag, traceId, email).build();
     }
 
     /**
@@ -66,7 +83,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
             log.info("【{}】失败, 手机号格式错误！traceId = {}, phone = {}", tag, traceId, phone);
             return false;
         }
-        UserDO userDO = userInfoDao.getUserByPhone(traceId, phone);
+        UserDO userDO = userInfoIService.getUserByPhone(traceId, phone);
         if (userDO != null) {
             log.info("【{}】失败, 手机号已被注册！traceId = {}, phone = {}", tag, traceId, phone);
             return false;
@@ -74,6 +91,14 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         return true;
     }
 
+    /**
+     * 验证邮箱是否合法
+     *
+     * @param traceId 轨迹id
+     * @param tag     通过邮箱注册用户
+     * @param email   邮箱
+     * @return 验证结果
+     */
     private boolean validUserEmail(String traceId, String tag, String email) {
         String regex = "^([a-z0-9A-Z]+[-|\\\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\\\.)+[a-zA-Z]{2,}$";
         Pattern p = Pattern.compile(regex);
@@ -82,7 +107,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
             log.info("【{}】失败, 邮箱格式错误！traceId = {}, phone = {}", tag, traceId, email);
             return false;
         }
-        UserDO userDO = userInfoDao.getUserByEmail(traceId, email);
+        UserDO userDO = userInfoIService.getUserByEmail(traceId, email);
         if (userDO != null) {
             log.info("【{}】失败, 手机号已被注册！traceId = {}, phone = {}", tag, traceId, email);
             return false;

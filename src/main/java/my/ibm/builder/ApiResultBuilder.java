@@ -2,14 +2,12 @@ package my.ibm.builder;
 
 import my.ibm.utils.ApiResult;
 
+/**
+ * @author kingdee lwt 2020/10/4
+ */
 public class ApiResultBuilder {
 
     private ApiResult apiResult;
-
-//    private String traceId;
-//    private String msg;
-//    private String errorCode;
-//    private Object data;
 
     public ApiResultBuilder( String traceId, String msg, String errorCode, Object data) {
         apiResult = new ApiResult();

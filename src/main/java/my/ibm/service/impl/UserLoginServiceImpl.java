@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * @author kingdee lwt 2020/10/4
+ */
+
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
 
@@ -33,8 +37,9 @@ public class UserLoginServiceImpl implements UserLoginService {
      * 用户登陆验证
      * TODO 手机号登陆
      * TODO 手机号格式验证
+     *
      * @param traceId 轨迹id
-     * @param params 请求参数
+     * @param params  请求参数
      * @return 返回结果
      */
     @Override
@@ -43,7 +48,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         String password = params.getPassWord();
 
         //登陆校验
-        UserDO userInfo = userInfoDaoImpl.userLoginCheck(traceId,userName, password);
+        UserDO userInfo = userInfoDaoImpl.userLoginCheck(traceId, userName, password);
         if (userInfo == null) {
             log.info("【用户登陆校验】 登陆失败! 用户名或密码错误, traceId = {} ", traceId);
             return ApiResultBuilder.fail(traceId, "登陆失败！用户名或密码错误", ApiResult.INFO_NOT_FOUND).build();
