@@ -130,14 +130,15 @@ public class ZkUtil {
      */
     @PostConstruct
     public  void init(){
-        String path="/zk-watcher-2";
-        logger.info("【执行初始化测试方法。。。。。。。。。。。。】");
-        createNode(path,"测试");
+        String path="/zk-myIAMServerWatcher-2";
+        logger.info("【执行初始化节点方法。。。。。。。。。。。。】");
+        createNode(path,"IAMServer");
         String value=getData(path,new WatcherApi());
         logger.info("【执行初始化测试方法getData返回值。。。。。。。。。。。。】={}",value);
 
         // 删除节点出发 监听事件
-        deleteNode(path);
+//        createNode(path,"myIAMServer");
+//        deleteNode(path);
 
     }
 
