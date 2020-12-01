@@ -9,6 +9,8 @@ import my.iam.utils.TraceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +29,7 @@ public class UserRegisterController {
     /**
      * 用户注册
      */
+    @RequestMapping(value = "/register/user", method = RequestMethod.POST)
     public ApiResult UserRegister(HttpServletRequest request, UserRegisterQuery params) {
         String tag = "用户注册";
         String traceId = TraceUtil.getTraceId(request);
@@ -36,9 +39,11 @@ public class UserRegisterController {
             case REGISTER_TYPE_PHONE:
                 log.info("【手机{}】请求参数：traceId = {}, params = {}", tag, traceId, JSON.toJSON(params));
                 apiResult = userRegisterService.userRegisterByPhone(traceId, params);
+                break;
             case REGISTER_TYPE_EMAIL:
                 log.info("【邮箱{}】请求参数：traceId = {}, params = {}", tag, traceId, JSON.toJSON(params));
                 apiResult = userRegisterService.userRegisterByEmail(traceId, params);
+                break;
         }
         log.info("【{}】请求结果：traceId = {}, params = {}", tag, traceId, JSON.toJSON(params));
         return apiResult;

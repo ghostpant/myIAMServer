@@ -15,6 +15,10 @@ public class UserRegisterQuery {
 
     private String email;
 
+    /**
+     * 0 = 手机
+     * 1 = 邮箱
+     */
     @NonNull
     private String registerType;
 
