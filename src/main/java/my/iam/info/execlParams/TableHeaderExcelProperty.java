@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 /**
  * EXECL 表格 列参数
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode()
 @Data
-public class TableHeaderExcelProperty extends BaseRowModel {
+public class TableHeaderExcelProperty {
 
     @ExcelProperty(value = "企业名称", index = 0)
     private String entName;
@@ -22,9 +22,12 @@ public class TableHeaderExcelProperty extends BaseRowModel {
     @ExcelProperty(value = "联系电话", index = 2)
     private String contactPhone;
 
-    @ExcelProperty(value = "企业地址", index = 3)
+    @ExcelProperty(value = "省市区", index = 3)
     private String locationId;
 
     @ExcelProperty(value = "详细地址", index = 4)
     private String detailAddress;
+
+    @ExcelProperty(value = "用户ID", index = 5)
+    private String userId ;
 }

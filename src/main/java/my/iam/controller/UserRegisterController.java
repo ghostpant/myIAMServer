@@ -8,12 +8,14 @@ import my.iam.utils.ApiResult;
 import my.iam.utils.TraceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@RestController
 public class UserRegisterController {
 
     private static final Logger log = LoggerFactory.getLogger(UserRegisterController.class);
@@ -21,16 +23,16 @@ public class UserRegisterController {
     private static final String REGISTER_TYPE_EMAIL = "1";
     private final UserRegisterServiceImpl userRegisterService;
 
-    @Autowired
     public UserRegisterController(UserRegisterServiceImpl userRegisterService) {
         this.userRegisterService = userRegisterService;
     }
+
 
     /**
      * 用户注册
      */
     @RequestMapping(value = "/register/user", method = RequestMethod.POST)
-    public ApiResult UserRegister(HttpServletRequest request, UserRegisterQuery params) {
+    public ApiResult userRegister(HttpServletRequest request, @RequestBody UserRegisterQuery params) {
         String tag = "用户注册";
         String traceId = TraceUtil.getTraceId(request);
         String type = params.getRegisterType();
@@ -44,6 +46,8 @@ public class UserRegisterController {
                 log.info("【邮箱{}】请求参数：traceId = {}, params = {}", tag, traceId, JSON.toJSON(params));
                 apiResult = userRegisterService.userRegisterByEmail(traceId, params);
                 break;
+                default:
+                    break;
         }
         log.info("【{}】请求结果：traceId = {}, params = {}", tag, traceId, JSON.toJSON(params));
         return apiResult;

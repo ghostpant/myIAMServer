@@ -9,6 +9,7 @@ import my.iam.utils.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
  * @author liweitao 2020/9/27
  * 用户注册
  */
+@Service
 public class UserRegisterServiceImpl implements UserRegisterService {
 
     private static final Logger log = LoggerFactory.getLogger(UserRegisterServiceImpl.class);

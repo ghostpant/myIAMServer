@@ -39,9 +39,6 @@ public class ApiResultBuilder {
         return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_SUCCESS, data);
     }
 
-    public static ApiResultBuilder success(String traceId, String msg, String errorCode) {
-        return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_SUCCESS);
-    }
 
     public static ApiResultBuilder success(String traceId, String msg) {
         return new ApiResultBuilder(traceId, msg, ApiResult.DEFAULT_SUCCESS);

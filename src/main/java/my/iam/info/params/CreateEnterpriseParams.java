@@ -1,11 +1,14 @@
 package my.iam.info.params;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Data
-public class CreateEnterpriseParams {
+@Builder
+public class CreateEnterpriseParams implements Serializable {
     private String ticket;
 
     private String userId;
